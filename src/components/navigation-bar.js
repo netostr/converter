@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SwipeableTemporaryDrawer from './drawer';
-import Avatar from '@material-ui/core/Avatar';
+import DrawUser from "./user"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +25,7 @@ export default function ButtonAppBar() {
   const classes = useStyles();
 
   const [isDriverOpen, setDriverOpen] = React.useState(false);
-  const [isAvatarShow, setAvatarShow] = React.useState(false);
+  const [isAvatarDraw, setAvatarDraw] = React.useState(false);
 
   const toggleDrawer = (open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -46,8 +46,8 @@ export default function ButtonAppBar() {
                 <Typography variant="h6" className={classes.title}>
                     News
                 </Typography>
-                {isAvatarShow ? <Avatar alt="cat" src="/catAvatar.jpg"/> : null}
-                <Button color="inherit" onClick={() => setAvatarShow(!isAvatarShow)}>{isAvatarShow ? 'Logout' : 'Login'}</Button>
+                {isAvatarDraw ? <DrawUser /> : null}
+                <Button color="inherit" onClick={() => setAvatarDraw(!isAvatarDraw)}>{isAvatarDraw ? 'Logout' : 'Login'}</Button>
               </Toolbar>
           </AppBar>
         </div>
