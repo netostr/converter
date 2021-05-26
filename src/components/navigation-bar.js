@@ -44,7 +44,7 @@ export default function ButtonAppBar() {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                    News
+                    Конвертер картинок
                 </Typography>
                 {isAvatarDraw ? <DrawUser /> : null}
                 <Button color="inherit" onClick={() => setAvatarDraw(!isAvatarDraw)}>{isAvatarDraw ? 'Logout' : 'Login'}</Button>
