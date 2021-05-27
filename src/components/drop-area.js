@@ -1,13 +1,15 @@
 import styles from './drop-area.module.css';
-import { useState } from 'react';
-import { Subtitles } from '@material-ui/icons';
+import { useState, useRef, useMemo } from 'react';
+import clsx from  'clsx';
 
 function InputImage() {
 
     const [isClassHighlightDraw, setClassHighlightDraw] = useState(false);
     const [progressBarValue, setProgressBarValue] = useState(0);
+    const [urlFiles, setUrlFiles] = useState([]);
+    const inputRef = useRef();
     let filesDone = 0;
-    let filesToDo = 0;
+    let filesToDo = 0;    
     
     const handleDragEnter = (e) => {
         e.preventDefault();
@@ -31,40 +33,45 @@ function InputImage() {
         e.preventDefault();
         e.stopPropagation();
         setClassHighlightDraw(false);
-        let dt = e.dataTransfer;
-        let files = dt.files;
+        const files = e.dataTransfer.files;
         handleFiles(files);
     };   
 
-    const handleFiles = (files) => {    
-        files = [...files];
-        initializeProgress(files.length);
-        files.forEach(uploadFile)
-        files.forEach(previewFile);
+    const handleLabelChooseClick = (e) => {
+        e.preventDefault();
+        inputRef.current.click();
+    } 
+
+    function handleDeleteFiles(e){
+        e.preventDefault();
+        urlFiles.forEach((file) => URL.revokeObjectURL(file));
+        setUrlFiles([])
     }
 
-    function initializeProgress(numfiles) {
+    const handleFiles = (files) => { 
+
+        const urlFilesBuf = [];
+        Array.from(files).forEach((file) => {
+            if (file.type.indexOf("image/") === 0) {
+                urlFilesBuf.push(URL.createObjectURL(file));
+            }           
+        });
+        setUrlFiles((oldState) => ([...oldState, ...urlFilesBuf]));
+
+    };
+
+    const initializeProgress = (numfiles) => {
         setProgressBarValue(0);
         filesDone = 0;
         filesToDo = numfiles;
-    }
+    };
 
-    function progressDone() {
+    const progressDone = () => {
         filesDone++;
         setProgressBarValue(filesDone / filesToDo * 100);
-    }
+    };
 
-    function previewFile(file) {
-        let reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onloadend = function() {
-            let img = document.createElement('img');
-            img.src = reader.result;
-            document.getElementById('gallery').appendChild(img);
-        }
-    }
-
-    function uploadFile(file) {
+     const uploadFile = (file) => {
         let url = 'ВАШ URL ДЛЯ ЗАГРУЗКИ ФАЙЛОВ';
         let formData = new FormData();
         formData.append('file', file);
@@ -74,17 +81,22 @@ function InputImage() {
         })
         .then(progressDone)
         .catch(() => { /* Ошибка. Информируем пользователя */ })
-    }
+    };
 
-    let cl = isClassHighlightDraw ? styles['highlight'] : '';
+    let cl = useMemo(() => (clsx({[styles.dropArea] : true,  [styles.highlight] : isClassHighlightDraw})), [isClassHighlightDraw]);
     return(        
-        <div className={styles['drop-area'] + ' ' + cl} id="drop-area" onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
+        <div className={cl} onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
             <form className={styles.form}>
-                <input className={styles.fileElem} type="file" id="fileElem" accept="image/*" onChange={(e) => handleFiles(e.target.files)}/>
-                <label className={styles.button} for="fileElem">Выбрать изображения</label>
+                <input className={styles.fileElem} ref={inputRef} type="file" accept="image/*" onChange={(e) => handleFiles(e.target.files)} multiple/>
+                <label className={styles.button} onClick={handleLabelChooseClick}>Выбрать изображения</label>
+                <label className={styles.button} onClick={handleDeleteFiles}>Отчистить</label>
             </form>
-            <progress id="progress-bar" max={100} value={progressBarValue}></progress>
-            <div className={styles.gallery} id="gallery"></div>
+            <progress max={100} value={progressBarValue}></progress>
+            <div className={styles.gallery} >
+                {urlFiles.map((url) => 
+                    <img className={styles.galleryImg} src={url} />
+                )}                
+            </div>
         </div>
     )
 }
