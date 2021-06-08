@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import SwipeableTemporaryDrawer from './drawer';
-import DrawUser from "./user"
+import SwipeableTemporaryDrawer from './SwipeableTemporaryDrawer';
+import DrawUser from "./DrawUser"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar() {
+export default function HeaderAppBar() {
   const classes = useStyles();
 
   const [isDriverOpen, setDriverOpen] = React.useState(false);
@@ -47,7 +47,7 @@ export default function ButtonAppBar() {
                     Конвертер картинок
                 </Typography>
                 {isAvatarDraw ? <DrawUser /> : null}
-                <Button color="inherit" onClick={() => setAvatarDraw(!isAvatarDraw)}>{isAvatarDraw ? 'Logout' : 'Login'}</Button>
+                <Button color="inherit" onClick={() => setAvatarDraw(!isAvatarDraw)}>{isAvatarDraw ? 'Выход' : 'Вход'}</Button>
               </Toolbar>
           </AppBar>
         </div>

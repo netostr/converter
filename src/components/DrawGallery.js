@@ -1,4 +1,4 @@
-import styles from './gallery.module.css';
+import styles from './DrawGallery.module.css';
 import Button from '@material-ui/core/Button';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,7 +47,8 @@ function DrawGallery({urlFiles, nameFiles, newNameFiles, formatImg, handleChange
                         <div className={styles.nameGalleryImg}> {nameFiles[index]} </div>
                     </div>
                     <TextField label="Название файла" variant="outlined" className={classes.textFieldNameImg} value={newNameFiles[index]} onChange={handleChangeNewNameFile(index)}/>
-                    <Select className={classes.selectFormatImg}
+                    <Select 
+                        className={classes.selectFormatImg}
                         value={formatImg[index]}
                         onChange={handleChangeFormatImg(index)}
                     >

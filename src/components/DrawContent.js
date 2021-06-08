@@ -1,9 +1,9 @@
-import InputImage from './drop-area'
+import DrawDropArea from './DrawDropArea'
 
 function DrawContent() {
     
     return(
-        <InputImage />
+        <DrawDropArea />
     );
 
 }

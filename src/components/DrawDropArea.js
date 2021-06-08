@@ -1,7 +1,7 @@
-import styles from './drop-area.module.css';
+import styles from './DrawDropArea.module.css';
 import { useState, useRef, useMemo } from 'react';
 import clsx from  'clsx';
-import DrawGallery from './gallery';
+import DrawGallery from './DrawGallery';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function InputImage() {
+function DrawDropArea() {
     const classes = useStyles();
     
     const [isClassHighlightDraw, setClassHighlightDraw] = useState(false);
@@ -146,12 +146,19 @@ function InputImage() {
             <div className={dropArea} onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>            
                 <input className={styles.fileElem} ref={inputRef} type="file" accept="image/*" onChange={(e) => handleInputFiles(e.target.files)} multiple value=""/>                    
                 <progress max={100} value={progressBarValue}></progress>
-                <DrawGallery urlFiles={urlFiles} nameFiles={nameFiles} newNameFiles={newNameFiles} formatImg={formatImg} 
-                    handleChangeFormatImg={handleChangeFormatImg} handleDeleteFile={handleDeleteFile} handleChangeNewNameFile={handleChangeNewNameFile}/>
+                <DrawGallery 
+                    urlFiles={urlFiles} 
+                    nameFiles={nameFiles} 
+                    newNameFiles={newNameFiles} 
+                    formatImg={formatImg} 
+                    handleChangeFormatImg={handleChangeFormatImg} 
+                    handleDeleteFile={handleDeleteFile} 
+                    handleChangeNewNameFile={handleChangeNewNameFile}
+                />
             </div>
         </div>
         
     )
 }
 
-export default InputImage;
+export default DrawDropArea;

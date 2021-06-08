@@ -1,11 +1,11 @@
-import ButtonAppBar from '../src/components/navigation-bar';
-import DrawContent from '../src/components/content';
+import HeaderAppBar from '../src/components/HeaderAppBar';
+import DrawContent from '../src/components/DrawContent';
 
 export default function Home() {
 
   return (
     <>
-      <ButtonAppBar />
+      <HeaderAppBar />
       <DrawContent />
     </>
   );
