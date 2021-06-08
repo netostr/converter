@@ -1,0 +1,32 @@
+.gallery {
+  margin: auto;
+  display: grid;
+}
+.galleryImg {
+  width: 100%;
+  height: 50%;
+  margin: 5%;
+  vertical-align: middle;
+}
+   
+.propsImg{
+  display: flex;
+  margin: 1%;  
+  height: 100px;
+  position: relative;
+  align-items: center;
+}
+  
+.blockImg{
+  display: inline-block;
+  width: 10%;
+  height: 100%;
+  margin: 0.5%;
+  position: absolute;
+}  
+  
+.nameGalleryImg{
+  text-align: center;
+  word-break: break-all;
+  font-size: 1vw;
+}
