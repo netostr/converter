@@ -1,8 +1,9 @@
 import styles from './DrawDropArea.module.css';
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useCallback } from 'react';
 import clsx from  'clsx';
 import DrawGallery from './DrawGallery';
 import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -74,14 +75,16 @@ function DrawDropArea() {
         return newState;
     };
 
-    const handleDeleteFile = (index) => (e) => {
-        e.preventDefault();
-        URL.revokeObjectURL(urlFiles[index]);
-        setUrlFiles((oldState) => deleteFile(index, oldState));
-        setNameFiles((oldState) => deleteFile(index, oldState));
-        setNewNameFiles((oldState) => deleteFile(index, oldState));
-        setFormatImg((oldState) => deleteFile(index, oldState));
-    };
+    const handleDeleteFile = useCallback(
+        (index) => (e) => {
+            e.preventDefault();
+            URL.revokeObjectURL(urlFiles[index]);
+            setUrlFiles((oldState) => deleteFile(index, oldState));
+            setNameFiles((oldState) => deleteFile(index, oldState));
+            setNewNameFiles((oldState) => deleteFile(index, oldState));
+            setFormatImg((oldState) => deleteFile(index, oldState));
+        }, []
+    );
 
     const handleInputFiles = (files) => {        
         const urlFilesBuf = [];
@@ -121,21 +124,25 @@ function DrawDropArea() {
         .catch(() => { /* Ошибка. Информируем пользователя */ })
     };   
 
-    const handleChangeFormatImg = (index) => (event) => {
-        setFormatImg((oldState) => {
-            const newState = [...oldState];
-            newState[index] = event.target.value;
-            return newState;
-        })            
-    };
+    const handleChangeFormatImg = useCallback( 
+        (index) => (event) => {
+            setFormatImg((oldState) => {
+                const newState = [...oldState];
+                newState[index] = event.target.value;
+                return newState;
+            })            
+        }, []
+    );
 
-    const handleChangeNewNameFile = (index) => (e) => {
-        setNewNameFiles((oldState) => {
-            const newState = [...oldState];
-            newState[index] = e.target.value;
-            return newState;
-        });
-    };
+    const handleChangeNewNameFile = useCallback(
+        (index) => (e) => {
+            setNewNameFiles((oldState) => {
+                const newState = [...oldState];
+                newState[index] = e.target.value;
+                return newState;
+            });
+        }, []
+    );
 
     let dropArea = useMemo(() => (clsx({[styles.dropArea] : true,  [styles.highlight] : isClassHighlightDraw})), [isClassHighlightDraw]);
     return(        
@@ -144,8 +151,8 @@ function DrawDropArea() {
             <Button variant="contained" color="secondary" onClick={handleDeleteFiles} className={classes.button}>Очистить</Button>
             <Button variant="contained" color="default" className={classes.button}>Конвертировать</Button>
             <div className={dropArea} onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>            
-                <input className={styles.fileElem} ref={inputRef} type="file" accept="image/*" onChange={(e) => handleInputFiles(e.target.files)} multiple value=""/>                    
-                <progress max={100} value={progressBarValue}></progress>
+                <input className={styles.fileElem} ref={inputRef} type="file" accept="image/*" onChange={(e) => handleInputFiles(e.target.files)} multiple value=""/>
+                <LinearProgress variant="determinate" value={progressBarValue} />
                 <DrawGallery 
                     urlFiles={urlFiles} 
                     nameFiles={nameFiles} 

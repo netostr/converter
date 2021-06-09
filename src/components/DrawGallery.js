@@ -41,7 +41,7 @@ function DrawGallery({urlFiles, nameFiles, newNameFiles, formatImg, handleChange
     return(
         <div className={styles.gallery} >
             {urlFiles.map((url, index) => 
-                <div className={styles.propsImg} key={index}>
+                <div className={styles.propsImg} key={url}>
                     <div className={styles.blockImg}>
                         <img className={styles.galleryImg} src={url} />                            
                         <div className={styles.nameGalleryImg}> {nameFiles[index]} </div>
