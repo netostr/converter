@@ -29,39 +29,39 @@ function DrawDropArea() {
     let filesDone = 0;
     let filesToDo = 0;    
     
-    const handleDragEnter = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    const handleDragEnter = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         setClassHighlightDraw(true);    
     };
 
-    const handleDragOver = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    const handleDragOver = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         setClassHighlightDraw(true);
     };
 
-    const handleDragLeave = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    const handleDragLeave = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         setClassHighlightDraw(false);
     };
 
-    const handleDrop = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    const handleDrop = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         setClassHighlightDraw(false);
-        const files = e.dataTransfer.files;
+        const files = event.dataTransfer.files;
         handleInputFiles(files);
     };   
 
-    const handleLabelChooseClick = (e) => {
-        e.preventDefault();
+    const handleLabelChooseClick = (event) => {
+        event.preventDefault();
         inputRef.current.click();
     };
 
-    const handleDeleteFiles = (e) => {
-        e.preventDefault();
+    const handleDeleteFiles = (event) => {
+        event.preventDefault();
         urlFiles.forEach((url) => URL.revokeObjectURL(url));
         setUrlFiles([]);
         setNameFiles([]);
@@ -76,8 +76,8 @@ function DrawDropArea() {
     };
 
     const handleDeleteFile = useCallback(
-        (index) => (e) => {
-            e.preventDefault();
+        (index) => (event) => {
+            event.preventDefault();
             URL.revokeObjectURL(urlFiles[index]);
             setUrlFiles((oldState) => deleteFile(index, oldState));
             setNameFiles((oldState) => deleteFile(index, oldState));
@@ -124,23 +124,21 @@ function DrawDropArea() {
         .catch(() => { /* Ошибка. Информируем пользователя */ })
     };   
 
+    const changeValueState = (index, event, oldState) => {
+        const newState = [...oldState];
+        newState[index] = event.target.value;
+        return newState;
+    }
+
     const handleChangeFormatImg = useCallback( 
         (index) => (event) => {
-            setFormatImg((oldState) => {
-                const newState = [...oldState];
-                newState[index] = event.target.value;
-                return newState;
-            })            
+            setFormatImg((oldState) => changeValueState(index, event, oldState));
         }, []
     );
 
     const handleChangeNewNameFile = useCallback(
-        (index) => (e) => {
-            setNewNameFiles((oldState) => {
-                const newState = [...oldState];
-                newState[index] = e.target.value;
-                return newState;
-            });
+        (index) => (event) => {
+            setNewNameFiles((oldState) => changeValueState(index, event, oldState));
         }, []
     );
 
@@ -149,7 +147,7 @@ function DrawDropArea() {
         <div className={styles.viewDropArea}>
             <Button variant="contained" color="primary" onClick={handleLabelChooseClick} className={classes.button}>Выбрать изображения</Button>
             <Button variant="contained" color="secondary" onClick={handleDeleteFiles} className={classes.button}>Очистить</Button>
-            <Button variant="contained" color="default" className={classes.button}>Конвертировать</Button>
+            <Button variant="contained" color="default" onClick={() => console.log('конвертируем')} className={classes.button}>Конвертировать</Button>
             <div className={dropArea} onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>            
                 <input className={styles.fileElem} ref={inputRef} type="file" accept="image/*" onChange={(e) => handleInputFiles(e.target.files)} multiple value=""/>
                 <LinearProgress variant="determinate" value={progressBarValue} />
