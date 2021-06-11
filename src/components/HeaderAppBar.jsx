@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SwipeableTemporaryDrawer from './SwipeableTemporaryDrawer';
-import DrawUser from "./DrawUser"
+import DrawUser from './DrawUser.tsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,22 +35,22 @@ export default function HeaderAppBar() {
   };
 
   return (
-    <>        
-        <div className={classes.root}>
-          <SwipeableTemporaryDrawer state={isDriverOpen} toggleDrawer={toggleDrawer}/>
-          <AppBar position="static">
-              <Toolbar>
-                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(!isDriverOpen)}>
-                    <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                    Конвертер картинок
-                </Typography>
-                {isAvatarDraw ? <DrawUser /> : null}
-                <Button color="inherit" onClick={() => setAvatarDraw(!isAvatarDraw)}>{isAvatarDraw ? 'Выход' : 'Вход'}</Button>
-              </Toolbar>
-          </AppBar>
-        </div>
+    <>
+      <div className={classes.root}>
+        <SwipeableTemporaryDrawer state={isDriverOpen} toggleDrawer={toggleDrawer} />
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(!isDriverOpen)}>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Конвертер картинок
+            </Typography>
+            {isAvatarDraw ? <DrawUser /> : null}
+            <Button color="inherit" onClick={() => setAvatarDraw(!isAvatarDraw)}>{isAvatarDraw ? 'Выход' : 'Вход'}</Button>
+          </Toolbar>
+        </AppBar>
+      </div>
     </>
   );
 }
