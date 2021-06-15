@@ -35,27 +35,27 @@ const useStyles = makeStyles((theme) => ({
 const FORMAT_IMG = ['jpg', 'png', 'ico'];
 
 function DrawGallery({
-  urlFiles, nameFiles, newNameFiles, formatImg, handleChangeFormatImg, handleDeleteFile, handleChangeNewNameFile,
+  conversionData,  handleDeleteFile, handleChangeDataImg,
 }) {
   const classes = useStyles();
 
   return (
     <div className={styles.gallery}>
-      {urlFiles.map((url, index) => (
-        <div className={styles.propsImg} key={url}>
+      {conversionData.map((data, index) => (
+        <div className={styles.propsImg} key={data.url}>
           <div className={styles.blockImg}>
-            <img className={styles.galleryImg} src={url} />
+            <img className={styles.galleryImg} src={data.url} />
             <div className={styles.nameGalleryImg}>
               {' '}
-              {nameFiles[index]}
+              {data.file.name}
               {' '}
             </div>
           </div>
-          <TextField label="Название файла" variant="outlined" className={classes.textFieldNameImg} value={newNameFiles[index]} onChange={handleChangeNewNameFile(index)} />
+          <TextField label="Название файла" variant="outlined" className={classes.textFieldNameImg} value={data.newNameImg} onChange={handleChangeDataImg(index, "newNameImg")} />
           <Select
             className={classes.selectFormatImg}
-            value={formatImg[index]}
-            onChange={handleChangeFormatImg(index)}
+            value={data.newFormatImg}
+            onChange={handleChangeDataImg(index, "newFormatImg")}
           >
             {FORMAT_IMG.map((format) => <MenuItem className={classes.menuFormatImg} value={format} key={format}>{format}</MenuItem>)}
           </Select>
