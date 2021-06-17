@@ -4,7 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import styles from './DrawGallery.module.css';
+import styles from '../../styles/DrawGallery.module.css';
+
+const FORMAT_IMG = ['jpg', 'png', 'ico'];
 
 const useStyles = makeStyles((theme) => ({
   buttonCloseImg: {
@@ -31,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
     right: '50%',
   },
 }));
-
-const FORMAT_IMG = ['jpg', 'png', 'ico'];
 
 function DrawGallery({
   conversionData,  handleDeleteFile, handleChangeDataImg,

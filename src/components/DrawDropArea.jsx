@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import DrawGallery from './DrawGallery';
-import styles from './DrawDropArea.module.css';
+import styles from '../../styles/DrawDropArea.module.css';
 
 const useStyles = makeStyles((theme) => ({
   button: {
