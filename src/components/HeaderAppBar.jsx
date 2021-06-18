@@ -37,7 +37,7 @@ export default function HeaderAppBar({titleHeaderAppBar}) {
   return (
     <>
       <div className={classes.root}>
-        <SwipeableTemporaryDrawer state={isDriverOpen} toggleDrawer={toggleDrawer} />
+        <SwipeableTemporaryDrawer state={isDriverOpen} toggleDrawer={toggleDrawer} titleHeaderAppBar={titleHeaderAppBar}/>
         <AppBar position="static">
           <Toolbar>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(!isDriverOpen)}>

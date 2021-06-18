@@ -19,17 +19,12 @@ const menu = [
   },
   {
     url: '/converter',
-    text: 'Ковертер',
+    text: 'Конвертер картинок',
   }
 ];
 
-export default function SwipeableTemporaryDrawer({ state, toggleDrawer }) {
+export default function SwipeableTemporaryDrawer({ state, toggleDrawer, titleHeaderAppBar }) {
   const classes = useStyles();
-
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const handleListItemClick = (index) => () => {
-    setSelectedIndex(index);
-  };
 
   return (
     <SwipeableDrawer
@@ -45,8 +40,7 @@ export default function SwipeableTemporaryDrawer({ state, toggleDrawer }) {
               key={data.text} 
               component={Link} 
               href={data.url}
-              selected={selectedIndex === index}
-              onClick={handleListItemClick(index)}
+              selected={titleHeaderAppBar === data.text}
             >
                 <ListItemText primary={data.text} />
             </ListItem>
