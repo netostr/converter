@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HeaderAppBar() {
+export default function HeaderAppBar({titleHeaderAppBar}) {
   const classes = useStyles();
 
   const [isDriverOpen, setDriverOpen] = React.useState(false);
@@ -44,7 +44,7 @@ export default function HeaderAppBar() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Конвертер картинок
+              {titleHeaderAppBar}
             </Typography>
             {isAvatarDraw ? <DrawUser /> : null}
             <Button color="inherit" onClick={() => setAvatarDraw(!isAvatarDraw)}>{isAvatarDraw ? 'Выход' : 'Вход'}</Button>
