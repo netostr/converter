@@ -27,20 +27,21 @@ export default function HeaderAppBar({titleHeaderAppBar}) {
   const [isDriverOpen, setDriverOpen] = React.useState(false);
   const [isAvatarDraw, setAvatarDraw] = React.useState(false);
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = React.useCallback((event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-    setDriverOpen(open);
-  };
+    setDriverOpen((currentState) => !currentState);
+  }, []);
 
+  
   return (
     <>
       <div className={classes.root}>
         <SwipeableTemporaryDrawer state={isDriverOpen} toggleDrawer={toggleDrawer} titleHeaderAppBar={titleHeaderAppBar}/>
         <AppBar position="static">
           <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(!isDriverOpen)}>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer}>
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>

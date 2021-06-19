@@ -5,6 +5,8 @@ import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import Link from '@material-ui/core/Link';
+import NLink from 'next/link';
+import {useRouter} from 'next/router';
 
 const useStyles = makeStyles({
   list: {
@@ -25,25 +27,27 @@ const menu = [
 
 export default function SwipeableTemporaryDrawer({ state, toggleDrawer, titleHeaderAppBar }) {
   const classes = useStyles();
+  const router = useRouter();
 
   return (
     <SwipeableDrawer
       open={state}
-      onClose={toggleDrawer(false)}
-      onOpen={toggleDrawer(true)}
+      onClose={toggleDrawer}
+      onOpen={toggleDrawer}
     >
-      <div className={classes.list} onClick={toggleDrawer(false)}>
+      <div className={classes.list} onClick={toggleDrawer}>
         <List>
-          {menu.map((data, index) => (
-            <ListItem 
-              button 
-              key={data.text} 
-              component={Link} 
-              href={data.url}
-              selected={titleHeaderAppBar === data.text}
-            >
+          {menu.map((data) => (
+            <NLink href={data.url} passHref key={data.url}>
+              <ListItem 
+                button 
+                key={data.text}
+                component={Link}
+                selected={router.pathname === data.url}
+              >
                 <ListItemText primary={data.text} />
-            </ListItem>
+              </ListItem>
+            </NLink>
           ))}
         </List>
       </div>
