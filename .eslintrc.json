@@ -25,6 +25,7 @@
         "@typescript-eslint/no-use-before-define": ["error"],
         "react-hooks/rules-of-hooks": "error", // Проверяем правила хуков
         "react-hooks/exhaustive-deps": "warn", // Проверяем зависимости эффекта
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "react/jsx-filename-extension": [2, { "extensions": [".jsx", ".tsx"] }]
     }
 }

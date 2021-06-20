@@ -1,4 +1,6 @@
-import {useState, useRef, useMemo, useCallback} from 'react';
+import React, {
+  useState, useRef, useMemo, useCallback,
+} from 'react';
 import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -6,9 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import DrawGallery from './DrawGallery';
 import styles from '../../styles/DrawDropArea.module.css';
 import uploadFile from '../conection/uploadFile';
-import {FORMAT_IMG} from './FieldImg'
+import { FORMAT_IMG } from './FieldImg';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   button: {
     width: '30%',
     minWidth: '50px',
@@ -25,7 +27,10 @@ const deleteFile = (index, oldState) => {
 
 const changeValueState = (index, key, value, oldState) => {
   const newState = [...oldState];
-  newState[index][key] = value;
+  newState[index] = {
+    ...newState[index],
+    [key]: value,
+  };
   return newState;
 };
 
@@ -38,8 +43,6 @@ function DrawDropArea() {
   const [conversionData, setConversionData] = useState([]);
 
   const inputRef = useRef();
-  let filesDone = 0;
-  let filesToDo = 0;
 
   const handleDragEnter = useCallback((event) => {
     event.preventDefault();
@@ -59,36 +62,27 @@ function DrawDropArea() {
     setClassHighlightDraw(false);
   }, []);
 
-  const handleDrop = useCallback((event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setClassHighlightDraw(false);
-    const { files } = event.dataTransfer;
-    handleInputFiles(files);
-  }, []);
-
   const handleLabelChooseClick = useCallback((event) => {
     event.preventDefault();
     inputRef.current.click();
   }, []);
 
   const handleDeleteFiles = useCallback((event) => {
-    event.preventDefault();    
+    event.preventDefault();
     setConversionData((currentState) => {
       currentState.forEach((data) => URL.revokeObjectURL(data.url));
       return [];
     });
-  }, []);  
+  }, []);
 
   const handleDeleteFile = useCallback((event) => {
-      event.preventDefault();      
-      setConversionData((oldState) => {
-        const index = +event.currentTarget.dataset.index;
-        URL.revokeObjectURL(oldState[index].url);
-        return deleteFile(index, oldState);          
-      });
-    }, []
-  );
+    event.preventDefault();
+    setConversionData((oldState) => {
+      const index = +event.currentTarget.dataset.index;
+      URL.revokeObjectURL(oldState[index].url);
+      return deleteFile(index, oldState);
+    });
+  }, []);
 
   const handleInputFiles = (files) => {
     const conversionDataBuf = [];
@@ -103,32 +97,75 @@ function DrawDropArea() {
         });
       }
     });
-    
+
     setConversionData((oldState) => [...oldState, ...conversionDataBuf]);
-  }; 
+  };
+
+  const handleDrop = useCallback((event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setClassHighlightDraw(false);
+    const { files } = event.dataTransfer;
+    handleInputFiles(files);
+  }, []);
 
   const handleChangeDataImg = useCallback(
     (event) => {
       const index = +event.currentTarget.dataset.index;
-      const key = event.currentTarget.dataset.key;
-      setConversionData((oldState) => changeValueState(index, key, event.target.value, oldState));      
+      const { key } = event.currentTarget.dataset;
+      const { value } = event.target;
+      setConversionData((oldState) => changeValueState(index, key, value, oldState));
     }, [],
   );
-  
+
   const handleUploadFile = useCallback(
     () => {
-      conversionData.forEach(({file}) => uploadFile(file));
-    }, [conversionData, uploadFile]
-  )
+      conversionData.forEach(({ file }) => uploadFile(file));
+    }, [conversionData, uploadFile],
+  );
 
-  const dropArea = useMemo(() => (clsx({ [styles.dropArea]: true, [styles.highlight]: isClassHighlightDraw })), [isClassHighlightDraw]);
+  const dropArea = useMemo(() => (clsx({
+    [styles.dropArea]: true,
+    [styles.highlight]: isClassHighlightDraw,
+  })), [isClassHighlightDraw]);
   return (
     <div className={styles.viewDropArea}>
-      <Button variant="contained" color="primary" onClick={handleLabelChooseClick} className={classes.button}>Выбрать изображения</Button>
-      <Button variant="contained" color="secondary" onClick={handleDeleteFiles} className={classes.button}>Очистить</Button>
-      <Button variant="contained" color="default" onClick={handleUploadFile} className={classes.button}>Конвертировать</Button>
-      <div className={dropArea} onDragEnter={handleDragEnter} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
-        <input className={styles.fileElem} ref={inputRef} type="file" accept="image/*" onChange={(e) => handleInputFiles(e.target.files)} multiple value="" />
+      <Button variant="contained" color="primary" onClick={handleLabelChooseClick} className={classes.button}>
+        Выбрать
+        изображения
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={handleDeleteFiles}
+        className={classes.button}
+      >
+        Очистить
+      </Button>
+      <Button
+        variant="contained"
+        color="default"
+        onClick={handleUploadFile}
+        className={classes.button}
+      >
+        Конвертировать
+      </Button>
+      <div
+        className={dropArea}
+        onDragEnter={handleDragEnter}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
+        <input
+          className={styles.fileElem}
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          onChange={(e) => handleInputFiles(e.target.files)}
+          multiple
+          value=""
+        />
         <LinearProgress variant="determinate" value={progressBarValue} />
         <DrawGallery
           conversionData={conversionData}

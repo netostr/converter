@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import styles from '../../styles/DrawGallery.module.css';
 
 export const FORMAT_IMG = ['jpg', 'png', 'ico'];
-const stateKeys = ["newNameImg", "newFormatImg"];
+const stateKeys = ['newNameImg', 'newFormatImg'];
 
 const useStyles = makeStyles(() => ({
   buttonCloseImg: {
@@ -37,10 +37,17 @@ const useStyles = makeStyles(() => ({
 }));
 
 const FieldImg = React.memo(
-  ({ handleDeleteFile, handleChangeDataImg, dataImg, indexImg }) => {
+  ({
+    handleDeleteFile,
+    handleChangeDataImg,
+    dataImg,
+    indexImg,
+  }) => {
     const classes = useStyles();
-
-    return(
+    if (indexImg === 0) {
+      console.log(dataImg);
+    }
+    return (
       <div className={styles.propsImg} key={dataImg.url}>
         <div className={styles.blockImg}>
           <img className={styles.galleryImg} src={dataImg.url} />
@@ -50,15 +57,15 @@ const FieldImg = React.memo(
             {' '}
           </div>
         </div>
-        <TextField 
+        <TextField
           label="Название файла"
           variant="outlined"
           className={classes.textFieldNameImg}
           value={dataImg.newNameImg}
-          onChange={handleChangeDataImg} 
+          onChange={handleChangeDataImg}
           inputProps={{
-            "data-index": indexImg,
-            "data-key": stateKeys[0],
+            'data-index': indexImg,
+            'data-key': stateKeys[0],
           }}
         />
         <Select
@@ -66,17 +73,33 @@ const FieldImg = React.memo(
           value={dataImg.newFormatImg}
           onChange={handleChangeDataImg}
           SelectDisplayProps={{
-            "data-index": indexImg,
-            "data-key": stateKeys[1],
+            'data-index': indexImg,
+            'data-key': stateKeys[1],
           }}
         >
-          {FORMAT_IMG.map((format) => <MenuItem className={classes.menuFormatImg} value={format} key={format} >{format}</MenuItem>)}
+          {FORMAT_IMG.map((format) => (
+            <MenuItem
+              className={classes.menuFormatImg}
+              value={format}
+              key={format}
+            >
+              {format}
+            </MenuItem>
+          ))}
         </Select>
-        <Button color="secondary" className={classes.buttonCloseImg} size="small" onClick={handleDeleteFile} data-index={indexImg} variant="outlined">
+        <Button
+          color="secondary"
+          className={classes.buttonCloseImg}
+          size="small"
+          onClick={handleDeleteFile}
+          data-index={indexImg}
+          variant="outlined"
+        >
           <CloseRoundedIcon className={classes.iconButtonCloseImg} fontSize="small" />
         </Button>
       </div>
-  );
-})
+    );
+  },
+);
 
 export default FieldImg;
