@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import next from 'next';
+import next from "next";
 
 const dev = process.env.NODE_ENV !== 'production';
 

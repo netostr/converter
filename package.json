@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "ts-node ./server",
+    "dev": "next",
     "build:server": "tsc --project tsconfig.server.json",
     "build:next": "next build",
     "build": "npm run build:next && npm run build:server",
@@ -14,7 +14,6 @@
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
-    "clsx": "^1.1.1",
     "express": "^4.17.1",
     "next": "10.2.1",
     "next-redux-wrapper": "^6.0.2",
