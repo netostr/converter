@@ -69,6 +69,7 @@ function DrawDropArea() {
 
   const handleDeleteFiles = useCallback((event) => {
     event.preventDefault();
+    setProgressBarValue(0);
     setConversionData((currentState) => {
       currentState.forEach((data) => URL.revokeObjectURL(data.url));
       return [];
@@ -120,7 +121,11 @@ function DrawDropArea() {
 
   const handleUploadFile = useCallback(
     () => {
-      conversionData.forEach(({ file }) => uploadFile(file));
+      setProgressBarValue(0);
+      conversionData.forEach((data) => {
+        uploadFile(data);
+        setProgressBarValue(old => old + 1);
+      });
     }, [conversionData, uploadFile],
   );
 
@@ -166,7 +171,7 @@ function DrawDropArea() {
           multiple
           value=""
         />
-        <LinearProgress variant="determinate" value={progressBarValue} />
+        <LinearProgress variant="determinate" value={progressBarValue / conversionData.length * 100} />
         <DrawGallery
           conversionData={conversionData}
           handleDeleteFile={handleDeleteFile}

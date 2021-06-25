@@ -1,23 +1,17 @@
-/* const initializeProgress = (numfiles) => {
-    setProgressBarValue(0);
-    filesDone = 0;
-    filesToDo = numfiles;
-  };
-
-  const progressDone = () => {
-    filesDone++;
-    setProgressBarValue(filesDone / filesToDo * 100);
-  }; */
-
-const uploadFile = async (file) => {
+const uploadFile = async (data) => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', data.file);
+  formData.append('newFormatImg', data.newFormatImg);
+  formData.append('newNameImg', data.newNameImg);
 
   try {
-    const response = await fetch('https://localhost:3000/uploadFile', {
-      method: 'PUT',
+    const response = await fetch('/converter/upload', {
+      method: 'POST',
       body: formData,
     });
+    if (!response.ok) {
+      throw new Error('Ответ сети был не ok.');
+    }
     const result = await response.json();
     console.log('Успех:', JSON.stringify(result));
   } catch (error) {
