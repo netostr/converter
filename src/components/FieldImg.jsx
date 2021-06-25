@@ -44,9 +44,6 @@ const FieldImg = React.memo(
     indexImg,
   }) => {
     const classes = useStyles();
-    if (indexImg === 0) {
-      console.log(dataImg);
-    }
     return (
       <div className={styles.propsImg} key={dataImg.url}>
         <div className={styles.blockImg}>

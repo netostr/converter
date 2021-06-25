@@ -10,12 +10,11 @@
   }; */
 
 const uploadFile = async (file) => {
-  const url = 'localhost:3001';
   const formData = new FormData();
   formData.append('file', file);
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch('https://localhost:3000/uploadFile', {
       method: 'PUT',
       body: formData,
     });

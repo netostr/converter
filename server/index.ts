@@ -12,6 +12,10 @@ const port = process.env.PORT || 3000;
     await app.prepare();
     const server = express();
     server.all('*', (req: Request, res: Response) => handle(req, res));
+    server.put('/uploadFile', (req: Request, res: Response) => {
+      console.log(req);
+      res.json();
+    });
     server.listen(port, (err?: any) => {
       if (err) throw err;
       console.log(`> Ready on http://localhost:${port}/ - env ${process.env.NODE_ENV}`);
