@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 import next from 'next';
-import Jimp from 'jimp';
 import fs from 'fs';
 import https from 'https';
 const multer = require('multer');
+import gm from 'gm';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -19,12 +19,15 @@ const httpsOptions = {
   rejectUnauthorized: false,
 };
 
-const convertImg = (file: string, mime: string) => {
-  Jimp.read(file, (err, img) => {
-    if (err) throw err;
-    img.getBufferAsync(mime);
-  });
-};
+const convertImg = async (fileBuff: Buffer, newFormat: string) => {
+  return new Promise( (resolve, reject) => {
+    gm(fileBuff)
+      .toBuffer(newFormat, function (err, buffer) {
+        if (err) throw err;
+        resolve(buffer);
+      })
+  })  
+}
 
 (async () => {
   try {
@@ -32,9 +35,20 @@ const convertImg = (file: string, mime: string) => {
     const appExpress = express();
     const server = https.createServer(httpsOptions, appExpress);
 
-    appExpress.post('/converter/upload', upload.single('file'), (req: Request, res: Response, next) => {
-      //let convertedImg = convertImg();
-      console.log(req.file);
+    appExpress.post('/converter/upload', upload.single('file'), async (req: Request, res: Response) => {
+
+      const file = req.file;
+      const newFormat = req.body.newFormatImg;
+      if (file && file.mimetype.split('/')[1] != newFormat) {
+        const oldNameImg = file.originalname;
+        const oldNameImgWithoutFormat = oldNameImg?.slice(0, oldNameImg.lastIndexOf('.'));
+        const newNameImg = (req.body.newNameImg || oldNameImgWithoutFormat || 'convertedImg') + '.' + req.body.newFormatImg;
+
+        const convertedImg = await convertImg(file.buffer, req.body.newFormatImg);
+
+        res.set('Content-Disposition',  'attachment; filename=' + newNameImg);
+        res.send(convertedImg);
+      }
     });
 
     appExpress.all('*', (req: Request, res: Response) => handle(req, res));   

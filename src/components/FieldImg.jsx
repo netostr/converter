@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import styles from '../../styles/DrawGallery.module.css';
 
-export const FORMAT_IMG = ['jpg', 'png', 'ico'];
+export const FORMAT_IMG = ['jpeg', 'png', 'ico'];
 const stateKeys = ['newNameImg', 'newFormatImg'];
 
 const useStyles = makeStyles(() => ({
