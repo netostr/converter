@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import styles from '../../styles/DrawGallery.module.css';
 
-export const FORMAT_IMG = ['jpeg', 'png', 'ico'];
+export const FORMAT_IMG = ['jpeg', 'png', 'bmp'];
 const stateKeys = ['newNameImg', 'newFormatImg'];
 
 const useStyles = makeStyles(() => ({
@@ -44,6 +44,7 @@ const FieldImg = React.memo(
     indexImg,
   }) => {
     const classes = useStyles();
+
     return (
       <div className={styles.propsImg} key={dataImg.url}>
         <div className={styles.blockImg}>
@@ -59,20 +60,12 @@ const FieldImg = React.memo(
           variant="outlined"
           className={classes.textFieldNameImg}
           value={dataImg.newNameImg}
-          onChange={handleChangeDataImg}
-          inputProps={{
-            'data-index': indexImg,
-            'data-key': stateKeys[0],
-          }}
+          onChange={(event) => handleChangeDataImg(event.target.value, indexImg, stateKeys[0])}
         />
         <Select
           className={classes.selectFormatImg}
           value={dataImg.newFormatImg}
-          onChange={handleChangeDataImg}
-          SelectDisplayProps={{
-            'data-index': indexImg,
-            'data-key': stateKeys[1],
-          }}
+          onChange={(event) => handleChangeDataImg(event.target.value, indexImg, stateKeys[1])}
         >
           {FORMAT_IMG.map((format) => (
             <MenuItem

@@ -111,10 +111,7 @@ function DrawDropArea() {
   }, []);
 
   const handleChangeDataImg = useCallback(
-    (event) => {
-      const index = +event.currentTarget.dataset.index;
-      const { key } = event.currentTarget.dataset;
-      const { value } = event.target;
+    (value, index, key) => {
       setConversionData((oldState) => changeValueState(index, key, value, oldState));
     }, [],
   );

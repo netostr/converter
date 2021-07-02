@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import next from 'next';
 import fs from 'fs';
 import https from 'https';
-const multer = require('multer');
+import multer from 'multer';
 import gm from 'gm';
 
 const dev = process.env.NODE_ENV !== 'production';
