@@ -22,6 +22,10 @@ const menu = [
   {
     url: '/converter',
     text: 'Конвертер картинок',
+  },
+  {
+    url: '/tic-tac-toe',
+    text: 'Крестики-нолики',
   }
 ];
 

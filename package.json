@@ -10,7 +10,7 @@
     "build": "npm run build:next && npm run build:server",
     "start": "SET NODE_ENV=production node dist/index.js",
     "test": "jest",
-    "eslint": "eslint ."
+    "eslint": "eslint . --fix"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",

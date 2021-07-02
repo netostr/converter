@@ -1,0 +1,17 @@
+.historyStep{ 
+  margin: 1px;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+  margin: 3%;
+}
+
+.gameInfo {
+  margin-left: 20px;
+}
+
+.olBlock {
+  padding-left: 30px;
+}
