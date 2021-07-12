@@ -12,27 +12,11 @@ const stateKeys = ['newNameImg', 'newFormatImg'];
 
 const useStyles = makeStyles(() => ({
   buttonCloseImg: {
-    width: '5%',
-    right: '0%',
     minWidth: '30px',
-    margin: 'auto',
-    position: 'absolute',
-  },
-  iconButtonCloseImg: {
-    width: '100%',
-  },
-  selectFormatImg: {
-    position: 'absolute',
-    right: '20%',
-  },
-  menuFormatImg: {
-    width: '100%',
-  },
-  textFieldNameImg: {
-    width: '30%',
-    height: '50%',
-    position: 'absolute',
-    right: '50%',
+  },  
+  textFieldNameImg: {    
+    minWidth: '150px',
+    margin: '0.5%',
   },
 }));
 
@@ -63,13 +47,11 @@ const FieldImg = React.memo(
           onChange={(event) => handleChangeDataImg(event.target.value, indexImg, stateKeys[0])}
         />
         <Select
-          className={classes.selectFormatImg}
           value={dataImg.newFormatImg}
           onChange={(event) => handleChangeDataImg(event.target.value, indexImg, stateKeys[1])}
         >
           {FORMAT_IMG.map((format) => (
             <MenuItem
-              className={classes.menuFormatImg}
               value={format}
               key={format}
             >
@@ -85,7 +67,7 @@ const FieldImg = React.memo(
           data-index={indexImg}
           variant="outlined"
         >
-          <CloseRoundedIcon className={classes.iconButtonCloseImg} fontSize="small" />
+          <CloseRoundedIcon fontSize="small" />
         </Button>
       </div>
     );

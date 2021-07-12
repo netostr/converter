@@ -13,9 +13,8 @@ import { FORMAT_IMG } from './FieldImg';
 const useStyles = makeStyles(() => ({
   button: {
     width: '30%',
-    minWidth: '50px',
+    minWidth: '150px',
     margin: '0.5%',
-    fontSize: '1vw',
   },
 }));
 
@@ -132,26 +131,28 @@ function DrawDropArea() {
   })), [isClassHighlightDraw]);
   return (
     <div className={styles.viewDropArea}>
-      <Button variant="contained" color="primary" onClick={handleLabelChooseClick} className={classes.button}>
-        Выбрать
-        изображения
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={handleDeleteFiles}
-        className={classes.button}
-      >
-        Очистить
-      </Button>
-      <Button
-        variant="contained"
-        color="default"
-        onClick={handleUploadFile}
-        className={classes.button}
-      >
-        Конвертировать
-      </Button>
+      <div className={styles.buttonArea}>
+        <Button variant="contained" color="primary" onClick={handleLabelChooseClick} className={classes.button}>
+          Выбрать
+          изображения
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleDeleteFiles}
+          className={classes.button}
+        >
+          Очистить
+        </Button>
+        <Button
+          variant="contained"
+          color="default"
+          onClick={handleUploadFile}
+          className={classes.button}
+        >
+          Конвертировать
+        </Button>
+      </div>      
       <div
         className={dropArea}
         onDragEnter={handleDragEnter}
